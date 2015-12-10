@@ -21,8 +21,8 @@
 
 // ################## EDIT THESE SETTINGS MANUALLY ################
 
-#define DAVINCI 1 // "0" if not DAVINCI, "1" For DAVINCI 1.0, "2" For DAVINCI 2.0 with 1 FAN, "3" For DAVINCI 2.0 with 2 FAN, 4 for AiO (WITH NO SCANNER SUPPORT)
-#define MODEL  0//"0" for first generation (jumper JP1 to reset ) , "1" for new generation   (jumper J37 to reset)
+#define DAVINCI 5 // "0" if not DAVINCI, "1" For DAVINCI 1.0, "2" For DAVINCI 2.0 with 1 FAN, "3" For DAVINCI 2.0 with 2 FAN, "4" for AiO (WITH NO SCANNER SUPPORT), "5" For DAVINCI 2.0A Duo
+#define MODEL  1//"0" for first generation (jumper JP1 to reset ) , "1" for new generation   (jumper J37 to reset)
 #define REPURPOSE_FAN_TO_COOL_EXTRUSIONS 0 //Setting this to 1 will repurpose the main Extruder cooling fan to be controlled VIA M106/M107
                                                                                             //Warning: for DaVinci 1.0 need to add a permanent fan with power supply to cool extruder
 
@@ -57,6 +57,11 @@
 #undef MODEL
 #define MODEL 1
 #endif
+#if DAVINCI==5
+//it must be model 1
+#undef MODEL
+#define MODEL 1
+#endif
 //to enable communication using wifi module set to 1
 #define ENABLE_WIFI 0
 //define the wifi serial output
@@ -80,7 +85,7 @@
     #define CLEAN_X 20
     #define CLEAN_Y 20
   #endif
-  #if DAVINCI==2 || DAVINCI==3
+  #if DAVINCI==2 || DAVINCI==3 || DAVINCI==5
     #define CLEAN_X 0
     #define CLEAN_Y 30
   #endif
@@ -132,7 +137,7 @@ To override EEPROM settings with config settings, set EEPROM_MODE 0
 #define NUM_EXTRUDER 1
 #endif
 //2.0/2.0A have 2 extruders
-#if DAVINCI==2 || DAVINCI==3
+#if DAVINCI==2 || DAVINCI==3 || DAVINCI==5
 #define NUM_EXTRUDER 2
 #endif
 
@@ -313,7 +318,7 @@ Overridden if EEPROM activated.*/
 #if DAVINCI==1 || DAVINCI==4
 #define EXT0_INVERSE false
 #endif
-#if DAVINCI==2 || DAVINCI==3
+#if DAVINCI==2 || DAVINCI==3 || DAVINCI==5
 #define EXT0_INVERSE true
 #endif
 #define EXT0_ENABLE_PIN E0_ENABLE_PIN
@@ -393,7 +398,7 @@ The codes are only executed for multiple extruder when changing the extruder. */
 #define EXT0_SELECT_COMMANDS "M117 Extruder 1"
 #define EXT0_DESELECT_COMMANDS ""
 /** The extruder cooler is a fan to cool the extruder when it is heating. If you turn the etxruder on, the fan goes on. */
-#if DAVINCI==3
+#if DAVINCI==3 || DAVINCI==5
 #define EXT0_EXTRUDER_COOLER_PIN ORIG_FAN2_PIN
 #else
 #define EXT0_EXTRUDER_COOLER_PIN ORIG_FAN_PIN
@@ -517,7 +522,7 @@ cog. Direct drive extruder need 0. */
 #if DAVINCI==2
 #define EXT1_EXTRUDER_COOLER_PIN ORIG_FAN_PIN
 #endif
-#if DAVINCI==3
+#if DAVINCI==3 || DAVINCI==5
 #define EXT1_EXTRUDER_COOLER_PIN ORIG_FAN_PIN
 #endif
 
@@ -897,7 +902,7 @@ on this endstop.
 #define ENDSTOP_Z_BACK_ON_HOME 0
 #endif 
 
-#if DAVINCI==2 || DAVINCI==3
+#if DAVINCI==2 || DAVINCI==3 || DAVINCI==5
 #define ENDSTOP_X_BACK_ON_HOME 0
 //to avoid to hit plate when homing
 #define ENDSTOP_Y_BACK_ON_HOME 7
@@ -931,7 +936,7 @@ on this endstop.
 #define Z_MAX_LENGTH 200 - ENDSTOP_Z_BACK_ON_HOME
 #endif
 
-#if DAVINCI==2 || DAVINCI==3
+#if DAVINCI==2 || DAVINCI==3 || DAVINCI==5
 #define X_MAX_LENGTH 199 - ENDSTOP_X_BACK_ON_HOME
 #define Y_MAX_LENGTH 211 - ENDSTOP_Y_BACK_ON_HOME
 #define Z_MAX_LENGTH 200 - ENDSTOP_Z_BACK_ON_HOME
@@ -951,7 +956,7 @@ on this endstop.
 #define Z_MIN_POS 0
 #endif
 
-#if DAVINCI==2 || DAVINCI==3
+#if DAVINCI==2 || DAVINCI==3 || DAVINCI==5
 #define X_MIN_POS 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
@@ -1441,7 +1446,7 @@ See: AdditionalArduinoFiles: README.txt on how to install them.
 #define MANUAL_LEVEL_Y4  100
 #endif
 
-#if DAVINCI==2 || DAVINCI==3
+#if DAVINCI==2 || DAVINCI==3 || DAVINCI==5
 #define Z_PROBE_X1 36
 #define Z_PROBE_Y1 -7
 #define Z_PROBE_X2 36
@@ -1587,7 +1592,7 @@ is also used for the heater if you have 2 extruders connected. */
 #if REPURPOSE_FAN_TO_COOL_EXTRUSIONS==1
 #define FEATURE_FAN_CONTROL 1
  #define FAN_PIN ORIG_FAN_PIN
-  #if DAVINCI==2 || DAVINCI==3
+  #if DAVINCI==2 || DAVINCI==3 || DAVINCI==5
       #define EXT0_EXTRUDER_COOLER_PIN ORIG_FAN2_PIN
       #define EXT1_EXTRUDER_COOLER_PIN ORIG_FAN2_PIN
     #else //DaVinci 1.0
@@ -1660,6 +1665,10 @@ Select the language to use.
 #if DAVINCI==4
 #define UI_PRINTER_NAME    "  Da Vinci AiO"
 #define DAVINCI_TYPE "4"
+#endif
+#if DAVINCI==5
+#define UI_PRINTER_NAME    " Da Vinci 2.0A"
+#define DAVINCI_TYPE "5"
 #endif
 
 #define UI_PRINTER_COMPANY "By XYZ Printing"
